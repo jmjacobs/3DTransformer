@@ -41,6 +41,8 @@
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
 @property (weak, nonatomic) IBOutlet UISlider *perspectiveSlider;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *keyframeSegments;
+@property (weak, nonatomic) IBOutlet UIView *anchorBackgroundView;
+@property (weak, nonatomic) IBOutlet UIView *anchorPoint;
 
 @property NSMutableArray *transformKeyframeArray;
 @property NSMutableArray *opacityKeyframeArray;
@@ -59,9 +61,14 @@
     self.opacityKeyframeArray = [[NSMutableArray alloc] init];
     self.sliderValuesArray = [[NSMutableArray alloc] init];
     [self updateLabelValues];
+    
+    //
     self.backgroundView.layer.cornerRadius = 10.0;
+    self.anchorPoint.layer.cornerRadius = 10.0;
+    self.anchorBackgroundView.layer.cornerRadius = 10.0;
     [self.keyframeSegments removeAllSegments];
     self.keyframeSegments.hidden = YES;
+    self.anchorBackgroundView.clipsToBounds = YES;
     
 }
 
@@ -153,6 +160,7 @@
     self.xRotate.value = self.yRotate.value = self.zRotate.value = 0.0;
     self.xScale.value = self.yScale.value = self.zScale.value = 1.0;
     self.perspectiveSlider.value = 0.0;
+    self.opacitySlider.value = 1.0;
     self.animationLength.value = 1.0;
     
     [self updateLabelValues];
@@ -231,5 +239,23 @@
     view.layer.position = position;
     view.layer.anchorPoint = anchorPoint;
 }
+
+- (IBAction)changeAnchorPoint:(id)sender {
+    
+    if ([sender isKindOfClass:[UITapGestureRecognizer class]]) {
+        
+        // GET THE LOCATION THAT WAS TAPPED AND MOVE THE ANCHOR THERE WHILST UPDATING THE ANCHOR POINT OF THE MAIN VIEW
+        UITapGestureRecognizer *tapGesture = (UITapGestureRecognizer *)sender;
+        CGPoint touchLocation = [tapGesture locationInView:self.anchorBackgroundView];
+        self.anchorPoint.center = touchLocation;
+        
+        CGPoint newAnchor = CGPointMake((touchLocation.x / self.anchorBackgroundView.frame.size.width), (touchLocation.y / self.anchorBackgroundView.frame.size.height));
+
+        [self setAnchorPoint:newAnchor forView:self.AView];
+        
+    }
+    
+}
+
 
 @end
