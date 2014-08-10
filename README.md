@@ -1,7 +1,7 @@
 CATransform3D Transformer
 =============
 
-Create sample CATransform3D transforms with this project.
+Create sample CATransform3D transforms and animations with this iPad project. I wanted to more fully understand 3D layer transforms as well as Core Animations. Adjusting the values on this project to build animations is a quick way to visualise this happening.
 
 ## Features:
 
