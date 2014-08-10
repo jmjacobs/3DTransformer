@@ -62,7 +62,7 @@
     self.sliderValuesArray = [[NSMutableArray alloc] init];
     [self updateLabelValues];
     
-    //
+    // INITIAL SETUP
     self.backgroundView.layer.cornerRadius = 10.0;
     self.anchorPoint.layer.cornerRadius = 10.0;
     self.anchorBackgroundView.layer.cornerRadius = 10.0;
@@ -98,7 +98,7 @@
     self.AView.layer.transform = transform;
     
     [self updateLabelValues];
-    
+
 }
 
 - (IBAction)perspectiveSwitched:(id)sender {
@@ -169,6 +169,7 @@
     [self.sliderValuesArray removeAllObjects];
     
     
+    
     // HIDE SEGMENTED CONTROL AND RESET IT BACK ITS DEFAULT
     self.keyframeSegments.hidden = YES;
     [self.keyframeSegments removeAllSegments];
@@ -192,7 +193,7 @@
     self.zTranslationLabel.text = [NSString stringWithFormat:@"%.0f", self.zTranslation.value];
     
     self.animationLengthLabel.text = [NSString stringWithFormat:@"%.1f", self.animationLength.value];
-    self.perspectiveLabel.text = [NSString stringWithFormat:@"%.1f", self.perspectiveSlider.value];
+    self.perspectiveLabel.text = [NSString stringWithFormat:@"%.2f", self.perspectiveSlider.value];
     self.opacityLabel.text = [NSString stringWithFormat:@"%.2f", self.opacitySlider.value];
 }
 
@@ -220,10 +221,8 @@
 
 -(void)setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view
 {
-    CGPoint newPoint = CGPointMake(view.bounds.size.width * anchorPoint.x,
-                                   view.bounds.size.height * anchorPoint.y);
-    CGPoint oldPoint = CGPointMake(view.bounds.size.width * view.layer.anchorPoint.x,
-                                   view.bounds.size.height * view.layer.anchorPoint.y);
+    CGPoint newPoint = CGPointMake(view.bounds.size.width * anchorPoint.x, view.bounds.size.height * anchorPoint.y);
+    CGPoint oldPoint = CGPointMake(view.bounds.size.width * view.layer.anchorPoint.x, view.bounds.size.height * view.layer.anchorPoint.y);
     
     newPoint = CGPointApplyAffineTransform(newPoint, view.transform);
     oldPoint = CGPointApplyAffineTransform(oldPoint, view.transform);
@@ -239,6 +238,8 @@
     view.layer.position = position;
     view.layer.anchorPoint = anchorPoint;
 }
+
+// GESTURE RECOGNISER CALLS THIS WHEN A TAP OCCURS IN THE ANCHOR VIEW
 
 - (IBAction)changeAnchorPoint:(id)sender {
     
